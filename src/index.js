@@ -12,7 +12,15 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(helmet());
-app.use(cors());
+
+// CORS configuration
+app.use(cors({
+  origin: ['https://fortecai-xaoerkl68-ronitgames5805-gmailcoms-projects.vercel.app', 'http://localhost:3000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
 // Routes
@@ -22,7 +30,7 @@ app.use('/api', apiRoutes);
 // Root endpoint
 app.get('/', (req, res) => {
   res.json({ 
-    message: 'Welcome to Premium AI API Services',
+    message: 'Welcome to Fortec AI',
     documentation: '/docs',
     status: 'active'
   });

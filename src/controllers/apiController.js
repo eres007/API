@@ -1,7 +1,7 @@
 const axios = require('axios');
-const { pollinationsService } = require('../services/pollinationsService');
+const { aiProviderService } = require('../services/aiProviderService');
 
-// @desc    Generate text using pollinations.ai
+// @desc    Generate text using AI models
 // @route   POST /api/text/generate
 // @access  Private (API Key)
 exports.generateText = async (req, res, next) => {
@@ -18,8 +18,8 @@ exports.generateText = async (req, res, next) => {
     // Track usage in user model
     await req.user.trackUsage('text');
     
-    // Call pollinations.ai service
-    const response = await pollinationsService.generateText(prompt, model, max_tokens);
+    // Call AI provider service
+    const response = await aiProviderService.generateText(prompt, model, max_tokens);
     
     res.status(200).json({
       success: true,
@@ -40,7 +40,7 @@ exports.generateText = async (req, res, next) => {
   }
 };
 
-// @desc    Generate image using pollinations.ai
+// @desc    Generate image using AI models
 // @route   POST /api/image/generate
 // @access  Private (API Key)
 exports.generateImage = async (req, res, next) => {
@@ -57,8 +57,8 @@ exports.generateImage = async (req, res, next) => {
     // Track usage in user model
     await req.user.trackUsage('image');
     
-    // Call pollinations.ai service
-    const response = await pollinationsService.generateImage(prompt, n, size, style);
+    // Call AI provider service
+    const response = await aiProviderService.generateImage(prompt, n, size, style);
     
     res.status(200).json({
       success: true,
@@ -79,7 +79,7 @@ exports.generateImage = async (req, res, next) => {
   }
 };
 
-// @desc    Generate speech using pollinations.ai
+// @desc    Generate speech using AI models
 // @route   POST /api/speech/generate
 // @access  Private (API Key)
 exports.generateSpeech = async (req, res, next) => {
@@ -96,8 +96,8 @@ exports.generateSpeech = async (req, res, next) => {
     // Track usage in user model
     await req.user.trackUsage('speech');
     
-    // Call pollinations.ai service
-    const response = await pollinationsService.generateSpeech(text, voice, format);
+    // Call AI provider service
+    const response = await aiProviderService.generateSpeech(text, voice, format);
     
     res.status(200).json({
       success: true,
