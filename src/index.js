@@ -10,24 +10,28 @@ const { errorHandler } = require('./middleware/errorHandler');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// CORS must be configured before other middleware
-// CORS configuration - more permissive for development
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+// Configure Helmet with relaxed settings to allow CORS
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+  contentSecurityPolicy: false
+}));
+
+// CORS configuration with specific origins
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', 'https://fortecai-nine.vercel.app');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   res.header('Access-Control-Allow-Credentials', 'true');
-  
-  // Handle preflight requests
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-  
-  next();
+  res.status(200).end();
 });
 
-// Security middleware
-app.use(helmet());
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://fortecai-nine.vercel.app');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 
 app.use(express.json());
 
