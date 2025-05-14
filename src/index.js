@@ -16,22 +16,18 @@ app.use(helmet({
   contentSecurityPolicy: false
 }));
 
-// CORS configuration with specific origins
-app.options('*', (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'https://fortecai-nine.vercel.app');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.status(200).end();
-});
+// Setup CORS for all routes
+app.use(cors({
+  origin: 'https://fortecai-nine.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true,
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
+}));
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://fortecai-nine.vercel.app');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  next();
-});
+// Handle preflight requests for all routes
+app.options('*', cors());
+
+// Express middleware for parsing JSON requests
 
 app.use(express.json());
 
