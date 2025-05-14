@@ -10,9 +10,9 @@ const { errorHandler } = require('./middleware/errorHandler');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Comprehensive CORS configuration
+// Comprehensive CORS configuration with wildcard to accept all frontend domains
 app.use(cors({
-  origin: ['https://fortecai-nine.vercel.app', 'http://localhost:3000'],
+  origin: '*', // Allow all origins
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   credentials: false,
@@ -22,9 +22,9 @@ app.use(cors({
 // Handle OPTIONS preflight requests directly
 app.options('*', cors());
 
-// Additional explicit CORS headers for all responses
+// Additional explicit CORS headers for all responses to ensure it works
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://fortecai-nine.vercel.app');
+  res.header('Access-Control-Allow-Origin', '*'); // Allow any domain
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept');
   res.header('Access-Control-Max-Age', '86400');
@@ -51,6 +51,15 @@ app.get('/', (req, res) => {
     message: 'Welcome to Fortec AI',
     documentation: '/docs',
     status: 'active'
+  });
+});
+
+// Health check endpoint at root level (easier for frontend to check)
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    message: 'API is operational',
+    timestamp: new Date().toISOString()
   });
 });
 

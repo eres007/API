@@ -4,7 +4,16 @@ const { generateText, generateImage, generateSpeech } = require('../controllers/
 const { authenticateApiKey } = require('../middleware/auth');
 const { rateLimiter } = require('../middleware/rateLimiter');
 
-// All routes require API key authentication
+// Health check endpoint (no authentication required)
+router.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    message: 'API is operational',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// All other routes require API key authentication
 router.use(authenticateApiKey);
 
 // Apply rate limiter to all API endpoints
