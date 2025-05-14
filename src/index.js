@@ -15,7 +15,7 @@ app.use(helmet());
 
 // CORS configuration
 app.use(cors({
-  origin: ['https://fortecai-xaoerkl68-ronitgames5805-gmailcoms-projects.vercel.app', 'http://localhost:3000'],
+  origin: ['https://fortecai-nine.vercel.app', 'https://fortecai-xaoerkl68-ronitgames5805-gmailcoms-projects.vercel.app', 'http://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']
