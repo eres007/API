@@ -10,22 +10,14 @@ const { errorHandler } = require('./middleware/errorHandler');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configure Helmet with relaxed settings to allow CORS
+// Basic CORS setup
+app.use(cors());
+
+// Configure Helmet with relaxed settings
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
   contentSecurityPolicy: false
 }));
-
-// Setup CORS for all routes
-app.use(cors({
-  origin: 'https://fortecai-nine.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true,
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
-}));
-
-// Handle preflight requests for all routes
-app.options('*', cors());
 
 // Express middleware for parsing JSON requests
 
