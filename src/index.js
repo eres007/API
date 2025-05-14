@@ -10,8 +10,26 @@ const { errorHandler } = require('./middleware/errorHandler');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Basic CORS setup
-app.use(cors());
+// Comprehensive CORS configuration
+app.use(cors({
+  origin: ['https://fortecai-nine.vercel.app', 'http://localhost:3000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+  credentials: false,
+  maxAge: 86400 // 24 hours
+}));
+
+// Handle OPTIONS preflight requests directly
+app.options('*', cors());
+
+// Additional explicit CORS headers for all responses
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://fortecai-nine.vercel.app');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept');
+  res.header('Access-Control-Max-Age', '86400');
+  next();
+});
 
 // Configure Helmet with relaxed settings
 app.use(helmet({
